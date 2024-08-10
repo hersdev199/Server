@@ -63,7 +63,7 @@ exports.signup = async (req, res) => {
 };
 
 //*-*-**-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-
-
+//LOGIN
 exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -91,5 +91,16 @@ exports.login = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error del servidor", error: error.message });
+  }
+};
+//*-*-**-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-
+//Logout
+exports.logout = async (req, res) => {
+  try {
+    // Elimina la cookie 'jwt'
+    res.clearCookie("jwt");
+    res.json({ message: "Has cerrado sesión exitosamente" });
+  } catch (error) {
+    res.status(500).json({ error: "Error al cerrar sesión" });
   }
 };

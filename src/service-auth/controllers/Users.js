@@ -1,4 +1,11 @@
 const Usuario = require("../models/Users");
+const passport = require("passport");
+const passportJWT = require("passport-jwt");
+const JwtStrategy = passportJWT.Strategy;
+const ExtractJwt = passportJWT.ExtractJwt;
+const jwt = require("jsonwebtoken");
+
+const jwtOptions = require("../config/config-passport");
 
 //*-*-**-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-
 //CREATE NEW USER
@@ -57,3 +64,32 @@ exports.signup = async (req, res) => {
 
 //*-*-**-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-
 
+exports.login = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await Usuario.findOne({ username });
+
+    if (user && (await user.matchPassword(password))) {
+      const payload = { id: user._id, username: user.username };
+      const token = jwt.sign(payload, jwtOptions.secretOrKey, {
+        expiresIn: "1h",
+      });
+
+      res.cookie("jwt", token, {
+        httpOnly: true,
+        secure: true,
+      }); // Configura las opciones de seguridad aquí
+
+      res.json({
+        message: "Inicio de sesión exitoso",
+        token: token,
+      });
+    } else {
+      res.status(401).json({ message: "Credenciales incorrectas" });
+    }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error del servidor", error: error.message });
+  }
+};

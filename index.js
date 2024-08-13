@@ -23,6 +23,12 @@ app.use(morgan("combined"));
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
+app.use((req, res, next) => {
+  res.setHeader("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none';");
+  next();
+});
+
+
 //*-*-*-*-*-*-*-**-*-*-*-*-*-*-**-*-*-*-*-*-*-**-*-*-*-*-*-*-*
 //CONNECTION TO MONGODB
 const mongoose = require("mongoose");

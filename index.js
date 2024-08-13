@@ -24,24 +24,12 @@ const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
 app.use((req, res, next) => {
-  res.setHeader("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none';");
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none';",
+  );
   next();
 });
-
-const { createProxyMiddleware } = require('http-proxy-middleware');
-const myDomain = process.env.MY_DOMAIN;
-
-app.use('/api', createProxyMiddleware({
-  target: myDomain,
-  changeOrigin: true,
-  pathRewrite: {
-    '^/api': '', // Elimina el prefijo /api si es necesario
-  },
-  onProxyReq: (proxyReq, req, res) => {
-    proxyReq.setHeader('Origin', 'https://tu-dominio.com');
-  }
-}));
-
 
 //*-*-*-*-*-*-*-**-*-*-*-*-*-*-**-*-*-*-*-*-*-**-*-*-*-*-*-*-*
 //CONNECTION TO MONGODB

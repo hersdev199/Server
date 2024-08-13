@@ -83,7 +83,6 @@ exports.login = async (req, res) => {
         maxAge: 3600000,
         path: "/",
         priority: "High",
-        domain: "https://boiling-janine-clientccero-3a3a52c3.koyeb.app",
       });
 
       res.json({

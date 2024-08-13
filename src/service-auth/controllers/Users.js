@@ -84,6 +84,10 @@ exports.login = async (req, res) => {
         path: "/",
         priority: "High",
       });
+      res.setHeader(
+        "Set-Cookie",
+        `${res.getHeader("Set-Cookie")}; Partitioned`,
+      );
 
       res.json({
         message: "Inicio de sesión exitoso",

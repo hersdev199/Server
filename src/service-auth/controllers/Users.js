@@ -78,7 +78,6 @@ exports.login = async (req, res) => {
       res.cookie("jwt", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "none",
       }); // Configura las opciones de seguridad aquí
 
       res.json({

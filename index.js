@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 });
 
 const { createProxyMiddleware } = require("http-proxy-middleware");
-const myDomain = process.env.MY_DOMAIN;
+const myDomain = process.env.DOMAIN;
 
 app.use(
   "/api",

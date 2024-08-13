@@ -8,12 +8,20 @@ const usuarios = require("./src/service-auth/routes/Users");
 //*-*-*-*-*-*-*-**-*-*-*-*-*-*-**-*-*-*-*-*-*-**-*-*-*-*-*-*-*
 // CONFIGURATION SERVER
 const path = require("path");
+const CORS_ORIGIN = process.env.CORS_ORIGIN;
 const cors = require("cors");
-app.use(cors());
+app.use(
+  cors({
+    origin: CORS_ORIGIN,
+    credentials: true,
+  }),
+);
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 const morgan = require("morgan");
 app.use(morgan("combined"));
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
 
 //*-*-*-*-*-*-*-**-*-*-*-*-*-*-**-*-*-*-*-*-*-**-*-*-*-*-*-*-*
 //CONNECTION TO MONGODB

@@ -75,10 +75,16 @@ exports.login = async (req, res) => {
         expiresIn: "1h",
       });
 
+      const DOMAIN = process.env.DOMAIN;
       res.cookie("jwt", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-      }); // Configura las opciones de seguridad aquí
+        secure: true,
+        sameSite: "None",
+        maxAge: 3600000,
+        path: "/",
+        priority: "High",
+        domain: DOMAIN,
+      });
 
       res.json({
         message: "Inicio de sesión exitoso",
